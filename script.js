@@ -73,6 +73,10 @@ function openEditModal(product) {
   document.getElementById("edit-category").value = product.category || "อาหาร/เครื่องดื่ม";
   document.getElementById("edit-contact").value = product.contact || "";
 
+  // ล้างไฟล์รูปเดิมที่เคยค้างใน Input
+  const editImageInput = document.getElementById("edit-image");
+  if (editImageInput) editImageInput.value = "";
+
   modal.classList.remove("hidden");
 }
 
@@ -177,26 +181,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Edit Submit
+  // Edit Submit (ส่งเป็น FormData รองรับการเปลี่ยนรูปภาพ)
   if (editForm) {
     editForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       const id = document.getElementById("edit-id")?.value;
       if (!id) return;
 
-      const updatedData = {
-        name: document.getElementById("edit-name")?.value,
-        producer: document.getElementById("edit-producer")?.value,
-        price: Number(document.getElementById("edit-price")?.value),
-        category: document.getElementById("edit-category")?.value,
-        contact: document.getElementById("edit-contact")?.value || null
-      };
+      const formData = new FormData();
+      formData.append("name", document.getElementById("edit-name")?.value || "");
+      formData.append("producer", document.getElementById("edit-producer")?.value || "");
+      formData.append("price", document.getElementById("edit-price")?.value || "");
+      formData.append("category", document.getElementById("edit-category")?.value || "");
+      formData.append("contact", document.getElementById("edit-contact")?.value || "");
+
+      const imageInput = document.getElementById("edit-image");
+      if (imageInput && imageInput.files && imageInput.files[0]) {
+        formData.append("image", imageInput.files[0]);
+      }
 
       try {
         const response = await fetch(`/api/products/${id}`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updatedData)
+          body: formData // ส่งเป็น FormData
         });
 
         if (!response.ok) throw new Error("แก้ไขไม่สำเร็จ");
