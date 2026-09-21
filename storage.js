@@ -22,7 +22,7 @@ db.exec(`
   )
 `);
 
-// Migrate ข้อมูลเริ่มต้น (ใส่รูปเริ่มต้น เช่น /assets/p01.jpg)
+// Migrate ข้อมูลเริ่มต้น
 const count = db.prepare("SELECT COUNT(*) as n FROM products").get();
 if (count.n === 0) {
   const insert = db.prepare(`
@@ -36,7 +36,7 @@ if (count.n === 0) {
     250,
     "อาหาร/เครื่องดื่ม",
     "081-234-5678",
-    "/assets/p01.jpg" // 👈 ใส่รูปภาพเริ่มต้น
+    "/assets/product-1.jpg" // 👈 แก้พาธรูปภาพให้ตรงกับไฟล์จริงในโฟลเดอร์ assets
   );
 
   insert.run(
@@ -45,7 +45,7 @@ if (count.n === 0) {
     850,
     "ผ้า/เครื่องแต่งกาย",
     "089-876-5432",
-    "/assets/p02.jpg" // 👈 ใส่รูปภาพเริ่มต้น
+    "/assets/product-2.jpg" // 👈 แก้พาธรูปภาพให้ตรงกับไฟล์จริงในโฟลเดอร์ assets
   );
 
   insert.run(
@@ -54,10 +54,10 @@ if (count.n === 0) {
     80,
     "สมุนไพร/สุขภาพ",
     "092-111-2222",
-    "/assets/p03.jpg" // 👈 ใส่รูปภาพเริ่มต้น
+    "/assets/product-3.jpg" // 👈 แก้พาธรูปภาพให้ตรงกับไฟล์จริงในโฟลเดอร์ assets
   );
 
-  console.log("📦 เพิ่มข้อมูลเริ่มต้น 3 ตัวพร้อมรูปภาพ");
+  console.log("📦 เพิ่มข้อมูลเริ่มต้น 3 ตัวพร้อมรูปภาพสำเร็จ");
 }
 
 // ============================================
@@ -105,7 +105,7 @@ function deleteProduct(id) {
 }
 
 // ============================================
-// UPDATE (แก้ไขเพิ่มเติม image_path แล้ว)
+// UPDATE
 // ============================================
 function updateProduct(id, data) {
   const stmt = db.prepare(`
@@ -120,7 +120,7 @@ function updateProduct(id, data) {
     data.price,
     data.category,
     data.contact,
-    data.image_path || null, // 👈 บันทึก image_path ด้วย
+    data.image_path || null,
     id
   );
 
