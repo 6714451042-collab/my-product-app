@@ -1,0 +1,568 @@
+/* ============================================================
+   STARTER CSS — สำหรับ Workshop Week 2 (Flexbox + Responsive)
+   ------------------------------------------------------------
+   ✓ ธีมใหม่: สดใสจัดจ้าน (Bright & Vibrant Neon/Tropical)
+   ============================================================ */
+
+
+/* ============================================================
+   1) CSS RESET & BASE
+   ============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Sarabun', 'Segoe UI', 'Tahoma', sans-serif;
+  line-height: 1.6;
+  color: var(--text-dark);
+  background: var(--bg);
+}
+
+a  { color: inherit; text-decoration: none; }
+li { list-style: none; }
+
+/* ควบคุมให้รูปภาพทุกรูปไม่เกินความกว้างของคอนเทนเนอร์แม่ */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ชุดสีสดใสจัดจ้าน (Vibrant Palette) */
+:root {
+  --primary: #FF2E93;        /* ชมพูสด นีออน (Hot Pink/Magenta) */
+  --primary-hover: #E00072;  /* ชมพูเข้มขึ้นตอน Hover */
+  --secondary: #FF8A00;      /* ส้มสดใส (Vibrant Orange) */
+  --accent: #7000FF;         /* ม่วงสด (Electric Purple) */
+  --accent-hover: #5900CC;   /* ม่วงเข้ม */
+  --success: #00E676;        /* เขียวมะนาวสด (Lime Green) */
+  
+  --bg: #F0F4F9;             /* พื้นหลังสีเทาฟ้าสว่างสะอาดตา */
+  --card-bg: #FFFFFF;        /* พื้นหลังการ์ดสีขาวบริสุทธิ์ */
+  
+  --light-badge: #FFF0F6;    /* ชมพูอ่อนสำหรับ Badge */
+  --border: #E2E8F0;         /* เส้นขอบเทาอ่อน */
+  
+  --text-dark: #1E293B;      /* สีข้อความหลัก เข้มชัดเจน */
+  --text-muted: #64748B;     /* สีข้อความรอง */
+}
+
+
+/* ============================================================
+   ============== TODO 1: NAVBAR ===============================
+   ============================================================ */
+.navbar {
+  background: #FFFFFF;
+  padding: 1.2rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(255, 46, 147, 0.08);
+  border-bottom: 3px solid var(--primary);
+  position: sticky;
+  top: 0;
+  z-index: 900;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.5px;
+}
+
+.menu {
+  display: flex;
+  gap: 1.5rem;
+  font-weight: 700;
+}
+
+.menu a {
+  color: var(--text-dark);
+  transition: color 0.2s;
+}
+
+.menu a:hover {
+  color: var(--primary);
+}
+
+
+/* ============================================================
+   ============== TODO 2: HERO SECTION =========================
+   ============================================================ */
+.hero {
+  padding: 3.5rem 2rem;
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-img {
+  flex: 1;
+  min-width: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(112, 0, 255, 0.15);
+  border: 4px solid #FFFFFF;
+}
+
+.hero-img img {
+  width: 100%;
+  max-height: 450px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.hero-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.hero-text h1 {
+  font-size: 2.5rem;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.hero-text p {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: 50px;
+  font-weight: 700;
+  box-shadow: 0 6px 20px rgba(255, 46, 147, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover { 
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(255, 46, 147, 0.5);
+}
+
+
+/* ============================================================
+   ============== TODO 3: CARD GRID ============================
+   ============================================================ */
+.cards-section {
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 5px;
+  background: var(--secondary);
+  margin: 0.5rem auto 0;
+  border-radius: 10px;
+}
+
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.8rem;
+}
+
+.card {
+  flex: 1 1 260px;
+  background: var(--card-bg);
+  padding: 1.2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid var(--border);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(255, 46, 147, 0.15);
+  border-color: rgba(255, 46, 147, 0.3);
+}
+
+.card img {
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.card h3 {
+  color: var(--text-dark);
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 0.8rem;
+}
+
+.price {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+
+/* ============================================================
+   ============== TODO 4: FOOTER ===============================
+   ============================================================ */
+.footer {
+  background: #111827;
+  color: #9CA3AF;
+  padding: 3rem 2rem 1.5rem;
+  margin-top: 4rem;
+  border-top: 4px solid var(--accent);
+}
+
+.footer-inner {
+  display: flex;
+  max-width: 1100px;
+  margin: 0 auto;
+  justify-content: space-around;
+  gap: 2rem;
+}
+
+.footer-col {
+  flex: 1;
+}
+
+.footer-col h4 {
+  color: white;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.footer-col p { 
+  margin-bottom: 0.4rem; 
+}
+
+.copyright {
+  text-align: center;
+  margin-top: 2.5rem;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+/* card-header & badges */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.category-badge {
+  padding: 0.3rem 0.8rem;
+  background: var(--light-badge);
+  color: var(--primary);
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.producer, .contact {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border);
+}
+
+.delete-btn {
+  padding: 0.5rem 1rem;
+  background: #FF3B30;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.delete-btn:hover {
+  background: #D70015;
+  transform: scale(1.03);
+}
+
+/* Section ฟอร์มเพิ่มสินค้า */
+.add-form-section {
+  max-width: 700px;
+  margin: 2.5rem auto;
+  padding: 2.5rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border);
+}
+
+.add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-weight: 700;
+  color: var(--text-dark);
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.8rem;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #F8FAFC;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(255, 46, 147, 0.15);
+}
+
+.submit-btn {
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: 0 6px 18px rgba(255, 138, 0, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(255, 138, 0, 0.45);
+}
+
+.card-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  background: #F1F5F9;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-image.no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+/* Modal Overlay & Modal Box */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal {
+  background: white;
+  border-radius: 20px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2.5rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+  color: var(--text-dark);
+  font-weight: 800;
+  margin: 0;
+}
+
+.modal-close {
+  background: #F1F5F9;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0.3rem 0.7rem;
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s;
+}
+
+.modal-close:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.modal-footer button {
+  flex: 1;
+}
+
+.cancel-btn {
+  padding: 0.9rem;
+  background: #F1F5F9;
+  color: var(--text-dark);
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.cancel-btn:hover {
+  background: #E2E8F0;
+}
+
+.edit-btn {
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-right: 0.5rem;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.edit-btn:hover {
+  background: var(--accent-hover);
+  transform: scale(1.03);
+}
+
+/* ============================================================
+   ============== TODO 5: RESPONSIVE — Media Query =============
+   ============================================================ */
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+
+  .hero-img img {
+    max-height: 300px;
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .cards-section {
+    padding: 2rem 1rem;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
