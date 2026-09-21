@@ -12,10 +12,14 @@ const {
 } = require("./storage");
 
 const app = express();
-app.use(express.static('public'));
+
+// Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static("public"));
+
+// Serving Static Files (ไฟล์หน้าเว็บ + ไฟล์รูปภาพใน uploads)
+app.use(express.static('public'));
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
 // ============================================
 // 🖼 Multer Setup
@@ -98,7 +102,7 @@ app.post("/api/products", upload.single("image"), (req, res) => {
   }
 });
 
-// PUT แก้ไขสินค้า (รองรับทั้งส่ง JSON ปกติ หรือเปลี่ยนรูปภาพใหม่)
+// PUT แก้ไขสินค้า
 app.put("/api/products/:id", upload.single("image"), (req, res) => {
   try {
     const id = parseInt(req.params.id);
@@ -116,9 +120,7 @@ app.put("/api/products/:id", upload.single("image"), (req, res) => {
 
     let imagePath = existingProduct.image_path;
 
-    // ถ้ามีการอัปโหลดรูปภาพใหม่เข้ามา
     if (req.file) {
-      // ลบรูปภาพเก่าทิ้งเพื่อประหยัดพื้นที่
       if (existingProduct.image_path) {
         const oldPath = path.join(__dirname, "public", existingProduct.image_path);
         if (fs.existsSync(oldPath)) {
@@ -163,6 +165,7 @@ app.delete("/api/products/:id", (req, res) => {
   res.json({ message: "ลบสำเร็จ", deleted: product });
 });
 
-app.listen(3000, () => {
-  console.log("🚀 Server running at http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
