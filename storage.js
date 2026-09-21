@@ -22,12 +22,12 @@ db.exec(`
   )
 `);
 
-// Migrate ข้อมูลเริ่มต้น (ถ้าตารางว่าง)
+// Migrate ข้อมูลเริ่มต้น (ใส่รูปเริ่มต้น เช่น /assets/p01.jpg)
 const count = db.prepare("SELECT COUNT(*) as n FROM products").get();
 if (count.n === 0) {
   const insert = db.prepare(`
-    INSERT INTO products (name, producer, price, category, contact)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO products (name, producer, price, category, contact, image_path)
+    VALUES (?, ?, ?, ?, ?, ?)
   `);
 
   insert.run(
@@ -35,7 +35,8 @@ if (count.n === 0) {
     "กลุ่มเลี้ยงผึ้งบ้านหนองบัว",
     250,
     "อาหาร/เครื่องดื่ม",
-    "081-234-5678"
+    "081-234-5678",
+    "/assets/p01.jpg" // 👈 ใส่รูปภาพเริ่มต้น
   );
 
   insert.run(
@@ -43,7 +44,8 @@ if (count.n === 0) {
     "กลุ่มทอผ้าบ้านหนองแวง",
     850,
     "ผ้า/เครื่องแต่งกาย",
-    "089-876-5432"
+    "089-876-5432",
+    "/assets/p02.jpg" // 👈 ใส่รูปภาพเริ่มต้น
   );
 
   insert.run(
@@ -51,10 +53,11 @@ if (count.n === 0) {
     "วิสาหกิจชุมชนใบเตยหอม",
     80,
     "สมุนไพร/สุขภาพ",
-    "092-111-2222"
+    "092-111-2222",
+    "/assets/p03.jpg" // 👈 ใส่รูปภาพเริ่มต้น
   );
 
-  console.log("📦 เพิ่มข้อมูลเริ่มต้น 3 ตัว");
+  console.log("📦 เพิ่มข้อมูลเริ่มต้น 3 ตัวพร้อมรูปภาพ");
 }
 
 // ============================================
@@ -76,8 +79,8 @@ function getProductById(id) {
 // ============================================
 function addProduct(product) {
   const stmt = db.prepare(`
-    INSERT INTO products (name, producer, price, category, contact,image_path)
-    VALUES (?, ?, ?, ?, ?,?)
+    INSERT INTO products (name, producer, price, category, contact, image_path)
+    VALUES (?, ?, ?, ?, ?, ?)
   `);
 
   const result = stmt.run(
@@ -102,24 +105,26 @@ function deleteProduct(id) {
 }
 
 // ============================================
-// UPDATE
+// UPDATE (แก้ไขเพิ่มเติม image_path แล้ว)
 // ============================================
-function updateProduct(id,data){
+function updateProduct(id, data) {
   const stmt = db.prepare(`
     UPDATE products
-    SET name = ?, producer = ?, price = ?, category = ?, contact = ?
+    SET name = ?, producer = ?, price = ?, category = ?, contact = ?, image_path = ?
     WHERE id = ? 
   `);
-  
+
   const result = stmt.run(
     data.name,
     data.producer,
     data.price,
     data.category,
     data.contact,
+    data.image_path || null, // 👈 บันทึก image_path ด้วย
     id
   );
-  if(result.changes === 0) return null;
+
+  if (result.changes === 0) return null;
   return getProductById(id);
 }
 
