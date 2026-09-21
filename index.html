@@ -144,7 +144,7 @@
         <button type="button" class="modal-close" id="modal-close">✕</button>
       </div>
 
-      <form id="edit-form" class="edit-form">
+      <form id="edit-form" class="edit-form" enctype="multipart/form-data">
         <input type="hidden" id="edit-id">
 
         <div class="form-group">
@@ -181,6 +181,16 @@
           <input type="tel" id="edit-contact">
         </div>
 
+        <!-- เพิ่มช่องอัปโหลดเปลี่ยนรูปภาพใน Modal -->
+        <div class="form-group">
+          <label for="edit-image">เปลี่ยนรูปภาพผลิตภัณฑ์ (jpg, png, webp):</label>
+          <input 
+            type="file" 
+            id="edit-image" 
+            name="image" 
+            accept="image/jpeg,image/png,image/webp">
+        </div>
+
         <div class="modal-footer">
           <button type="button" class="cancel-btn" id="cancel-btn">ยกเลิก</button>
           <button type="submit" class="submit-btn">💾 บันทึก</button>
@@ -190,6 +200,6 @@
   </div>
 
   <!-- สคริปต์ปิดท้าย พร้อมใส่ Query String บังคับล้างแคชไฟล์ JS -->
-  <script src="script.js?v=2"></script>
+  <script src="script.js?v=3"></script>
 </body>
 </html>
